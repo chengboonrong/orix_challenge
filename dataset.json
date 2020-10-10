@@ -1,1 +1,7 @@
-{ "name":"John", "age":30, "car":null }
+{ 0: {
+  "name":"John", "age":30, "car":'Proton' 
+    },
+  1: {
+  "name":"Jason", "age":21, "car":'Perodua'
+  }
+}
