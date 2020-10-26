@@ -30,7 +30,7 @@ Future<List<Deal>> getList() async {
       _deals.add(Deal(
           title: json['title'],
           mobileicon: Mobile(
-              id: int.parse(json['mobileicon']['id']),
+              id: int(json['mobileicon']['id']),
               diskName: json['mobileicon']['disk_name'])));
     });
     // print(json));
