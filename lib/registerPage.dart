@@ -93,11 +93,11 @@ class _SignUpPageState extends State<SignUpPage> {
           print(
               "${_usernameController.text}, ${_emailController.text}, ${_passwordController.text}");
           await GoogleSignIn.registerWithEmailPassword(
-                  (_emailController.text), _passwordController.text)
+                  _emailController.text, _passwordController.text)
               .then((value) {
             if (value != null) {
               GoogleSignIn.createUser(
-                  value, _usernameController.text, _emailController.text);
+                  _usernameController.text, _emailController.text);
 
               Fluttertoast.showToast(
                   msg: 'You have registered successfully, you can login now.',

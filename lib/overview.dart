@@ -32,32 +32,7 @@ class App1 extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  ShowNumbers(),
-                  // FlatButton(
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(20),
-                  //     ),
-                  //     onPressed: () {
-                  //       GoogleSignIn.signOutGoogle();
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) => WelcomePage()),
-                  //       );
-                  //     },
-                  //     color: Colors.redAccent,
-                  //     child: Padding(
-                  //         padding: EdgeInsets.all(10),
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.center,
-                  //           crossAxisAlignment: CrossAxisAlignment.center,
-                  //           children: <Widget>[
-                  //             Icon(Icons.exit_to_app, color: Colors.white),
-                  //             SizedBox(width: 10),
-                  //             Text('Log out of Google',
-                  //                 style: TextStyle(color: Colors.white))
-                  //           ],
-                  //         )))
+                  ShowNumbers()
                 ],
               ),
             ))
@@ -80,7 +55,7 @@ class _ShowNumbersState extends State<ShowNumbers> {
   String email;
   String name;
   String imageUrl;
-  bool checkGoogleSign;
+  bool checkGoogleSign = false;
 
   Future<void> getUserProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -89,10 +64,16 @@ class _ShowNumbersState extends State<ShowNumbers> {
         ? prefs.getStringList('uprofile')
         : prefs.getStringList('touchID_uprofile');
     setState(() {
-      uid = stringList[0];
-      name = stringList[1];
-      email = stringList[2];
-      imageUrl = stringList[3] != null ? stringList[3] : null;
+      if (checkGoogleSign) {
+        uid = stringList[0];
+        name = stringList[1];
+        email = stringList[2];
+        imageUrl = stringList[3];
+      } else {
+        uid = stringList[0];
+        name = stringList[1];
+        email = stringList[2];
+      }
     });
   }
 
@@ -105,9 +86,7 @@ class _ShowNumbersState extends State<ShowNumbers> {
 
     await databaseReference.once().then((DataSnapshot snapshot) {
       if (snapshot.value['users'] != null) {
-        // print(snapshot.value);
         snapshot.value['users'].forEach((k, v) => users.add(v));
-        // print(v['name']));
       }
     });
     return users;
@@ -134,7 +113,6 @@ class _ShowNumbersState extends State<ShowNumbers> {
         textAlign: TextAlign.center,
         begin: 0,
         end: double.parse(_users.length.toString()),
-        // 6500,
         duration: Duration(seconds: 1),
         separator: ',',
         curve: Curves.fastLinearToSlowEaseIn,
@@ -142,112 +120,6 @@ class _ShowNumbersState extends State<ShowNumbers> {
           fontSize: 36,
         ),
       ),
-      !checkGoogleSign
-          ? FlatButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              onPressed: () {
-                GoogleSignIn.signOutGoogle();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WelcomePage()),
-                );
-              },
-              color: Colors.redAccent,
-              child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.exit_to_app, color: Colors.white),
-                      SizedBox(width: 10),
-                      Text('Log out of Google',
-                          style: TextStyle(color: Colors.white))
-                    ],
-                  )))
-          : GestureDetector(
-              child: PhotoHero(
-                  photo: '$imageUrl',
-                  // width: 300.0,
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute<void>(
-                        builder: (BuildContext context) {
-                      return Scaffold(
-                        appBar: AppBar(
-                          title: const Text('Details'),
-                        ),
-                        body: Container(
-                          // The blue background emphasizes that it's a new route.
-                          // color: Colors.lightBlueAccent,
-                          padding: const EdgeInsets.all(16.0),
-                          alignment: Alignment.topCenter,
-                          child: Column(children: <Widget>[
-                            PhotoHero(
-                              photo: '$imageUrl',
-                              width: 100.0,
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                text: 'Hello ',
-                                style: TextStyle(
-                                    color: Colors.orangeAccent, fontSize: 20),
-                                children: <TextSpan>[
-                                  TextSpan(text: '$name\n'),
-                                  TextSpan(
-                                    text: '$uid\n',
-                                    style: TextStyle(
-                                        color: Colors.greenAccent,
-                                        fontSize: 16),
-                                  ),
-                                  TextSpan(
-                                    text: '$email\n',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 16),
-                                  )
-                                ],
-                              ),
-                            ),
-                            FlatButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                onPressed: () {
-                                  GoogleSignIn.signOutGoogle();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => WelcomePage()),
-                                  );
-                                },
-                                color: Colors.redAccent,
-                                child: Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Icon(Icons.exit_to_app,
-                                            color: Colors.white),
-                                        SizedBox(width: 10),
-                                        Text('Log out of Google',
-                                            style:
-                                                TextStyle(color: Colors.white))
-                                      ],
-                                    )))
-                          ]),
-                        ),
-                      );
-                    }));
-                  }),
-            ),
       RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
@@ -255,23 +127,112 @@ class _ShowNumbersState extends State<ShowNumbers> {
           style: DefaultTextStyle.of(context).style,
         ),
       ),
-      // Text(
-      //   _text,
-      //   textAlign: TextAlign.center,
-      //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-      // ),
+      // !checkGoogleSign ?
+      FlatButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          onPressed: () {
+            GoogleSignIn.signOutGoogle();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WelcomePage()),
+            );
+          },
+          color: Colors.redAccent,
+          child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.exit_to_app, color: Colors.white),
+                  SizedBox(width: 10),
+                  Text('Log out of Google',
+                      style: TextStyle(color: Colors.white))
+                ],
+              )))
+      // : GestureDetector(
+      //     child: PhotoHero(
+      //         photo: '$imageUrl',
+      //         // width: 300.0,
+      //         onTap: () {
+      //           Navigator.of(context).push(MaterialPageRoute<void>(
+      //               builder: (BuildContext context) {
+      //             return Scaffold(
+      //               body: Container(
+      //                 // The blue background emphasizes that it's a new route.
+      //                 // color: Colors.lightBlueAccent,
+      //                 padding: const EdgeInsets.only(
+      //                     top: 250, left: 16, right: 16),
+      //                 child: Column(children: <Widget>[
+      //                   PhotoHero(
+      //                     photo: '$imageUrl',
+      //                     width: 100.0,
+      //                     onTap: () {
+      //                       Navigator.of(context).pop();
+      //                     },
+      //                   ),
+      //                   RichText(
+      //                     textAlign: TextAlign.center,
+      //                     text: TextSpan(
+      //                       text: '',
+      //                       style: TextStyle(
+      //                           color: Colors.blueGrey, fontSize: 20),
+      //                       children: <TextSpan>[
+      //                         TextSpan(
+      //                             text: '$name\n',
+      //                             style: TextStyle(fontSize: 30)),
+      //                         TextSpan(
+      //                           text: 'UID: $uid\n',
+      //                           style: TextStyle(
+      //                               color: Colors.blueGrey, fontSize: 16),
+      //                         ),
+      //                         TextSpan(
+      //                           text: 'Email: $email\n',
+      //                           style: TextStyle(
+      //                               color: Colors.blueGrey, fontSize: 16),
+      //                         )
+      //                       ],
+      //                     ),
+      //                   ),
+      //                   FlatButton(
+      //                       shape: RoundedRectangleBorder(
+      //                         borderRadius: BorderRadius.circular(20),
+      //                       ),
+      //                       onPressed: () {
+      //                         GoogleSignIn.signOutGoogle();
+      //                         Navigator.push(
+      //                           context,
+      //                           MaterialPageRoute(
+      //                               builder: (context) => WelcomePage()),
+      //                         );
+      //                       },
+      //                       color: Colors.redAccent,
+      //                       child: Padding(
+      //                           padding: EdgeInsets.all(10),
+      //                           child: Row(
+      //                             mainAxisAlignment:
+      //                                 MainAxisAlignment.center,
+      //                             crossAxisAlignment:
+      //                                 CrossAxisAlignment.center,
+      //                             children: <Widget>[
+      //                               Icon(Icons.exit_to_app,
+      //                                   color: Colors.white),
+      //                               SizedBox(width: 10),
+      //                               Text('Log out of Google',
+      //                                   style:
+      //                                       TextStyle(color: Colors.white))
+      //                             ],
+      //                           )))
+      //                 ]),
+      //               ),
+      //             );
+      //           }));
+      //         }),
+      //   ),
     ]));
   }
-}
-
-class User {
-  String name;
-  String num1;
-  String num2;
-  String num3;
-  double score;
-
-  User({this.name, this.num1, this.num2, this.num3, this.score});
 }
 
 class PhotoHero extends StatelessWidget {

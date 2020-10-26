@@ -9,13 +9,15 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 bool authSignedIn;
 String uid;
 String userEmail;
+String userName;
 
 final databaseReference = FirebaseDatabase.instance.reference();
 
-void createUser(uid, username, email) async {
+void createUser(username, email) async {
+  final endIndex = email.toString().indexOf(".com");
   await databaseReference
-      .child("users/$uid")
-      .set({'uname': username, 'email': email});
+      .child("users/${email.toString().substring(0, endIndex)}")
+      .set({'uname': username});
 }
 
 void saveUser(uid, uname, uemail) async {
@@ -48,70 +50,70 @@ Future<String> registerWithEmailPassword(String email, String password) async {
   // Initialize Firebase
   await Firebase.initializeApp();
 
-  // var _msg;
+  var _msg;
 
-  // try {
-  //   // final UserCredential userCredential =
-  //   await _auth.createUserWithEmailAndPassword(
-  //     email: email,
-  //     password: password,
-  //   );
+  try {
+    // final UserCredential userCredential =
+    await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
 
-  //   return _auth.currentUser.uid;
-  // } catch (e) {
-  //   // print(e.code);
+    return _auth.currentUser.uid;
+  } catch (e) {
+    // print(e.code);
 
-  //   return null;
+    switch (e.code) {
+      case 'unknown':
+        _msg = 'Please fill in all the blanks.';
+        break;
+      case 'invalid-email':
+        _msg = 'Email address is not valid.';
+        break;
+      case 'weak-password':
+        _msg = 'Password must have at least 6 characters.';
+        break;
+      case 'email-already-in-use':
+        _msg = 'Account already exists for that email.';
+        break;
 
-  // switch (e.code) {
-  //   case 'unknown':
-  //     return 'Please fill in all the blanks.';
-  //   case 'invalid-email':
-  //     return 'Email address is not valid.';
-  //   case 'weak-password':
-  //     return 'Password must have at least 6 characters.';
-  //   case 'email-already-in-use':
-  //     return 'Account already exists for that email.';
-
-  //   default:
-  //   // default statements
-  // }
-  // if (e.code == 'weak-password') {
-  //   print('The password provided is too weak.');
-  // } else if (e.code == 'email-already-in-use') {
-  //   print('The account already exists for that email.');
-  // }
-
-  final UserCredential userCredential =
-      await _auth.createUserWithEmailAndPassword(
-    email: email,
-    password: password,
-  );
-
-  final User user = userCredential.user;
-
-  if (user != null) {
-    // checking if uid or email is null
-    assert(user.uid != null);
-    assert(user.email != null);
-
-    uid = user.uid;
-    userEmail = user.email;
-
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    // return 'Successfully registered, User UID: ${user.uid}';
-    User _user = FirebaseAuth.instance.currentUser;
-
-    if (!_user.emailVerified) {
-      await _user.sendEmailVerification();
+      default:
+      // default statements
     }
-
-    return user.uid;
+    return _msg;
   }
 
-  return null;
+  // final UserCredential userCredential =
+  //     await _auth.createUserWithEmailAndPassword(
+  //   email: email,
+  //   password: password,
+  // );
+
+  // final User user = userCredential.user;
+
+  // if (user != null) {
+  //   // checking if uid or email is null
+  //   assert(user.uid != null);
+  //   assert(user.email != null);
+
+  //   uid = user.uid;
+  //   userEmail = user.email;
+  //   userName = username;
+
+  //   assert(!user.isAnonymous);
+  //   assert(await user.getIdToken() != null);
+
+  //   // return 'Successfully registered, User UID: ${user.uid}';
+  //   User _user = FirebaseAuth.instance.currentUser;
+
+  //   if (!_user.emailVerified) {
+  //     await _user.sendEmailVerification();
+  //   }
+
+  //   return user.uid;
+  // }
+
+  // return null;
 }
 
 Future<String> signInWithEmailPassword(String email, String password) async {
@@ -137,6 +139,12 @@ Future<String> signInWithEmailPassword(String email, String password) async {
       uid = user.uid;
       userEmail = user.email;
 
+      final endIndex = email.toString().indexOf(".com");
+      databaseReference
+          .child('users/${user.email.toString().substring(0, endIndex)}')
+          .once()
+          .then((value) => userName = value.value['uname']);
+
       assert(!user.isAnonymous);
       assert(await user.getIdToken() != null);
 
@@ -154,9 +162,8 @@ Future<String> signInWithEmailPassword(String email, String password) async {
       prefs.setBool('first_time', false);
       prefs.setBool('googleSign', false);
       prefs.setBool('auth', true);
-      prefs.setStringList('uprofile', [uid, user.displayName, userEmail]);
-      prefs.setStringList(
-          'touchID_uprofile', [uid, user.displayName, userEmail]);
+      prefs.setStringList('uprofile', [uid, userName, userEmail]);
+      prefs.setStringList('touchID_uprofile', [uid, userName, userEmail]);
 
       return 'success';
     }
@@ -272,7 +279,7 @@ Future<String> signInWithGoogle() async {
     final User currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
 
-    createUser(uid, name, userEmail);
+    createUser(name, userEmail);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('first_time', false);
