@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/app.dart';
-import 'package:my_app/documentForm.dart';
 import 'package:my_app/overview.dart';
 import 'dart:io';
-// import 'package:test_app/utils/authentication.dart' as Auth;
-// import 'package:test_app/utils/authentication.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -19,7 +17,7 @@ class _HomeState extends State<Home> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isIn = prefs.getBool('auth');
     if (isIn) {
-      print('Google signed in');
+      print('Signed in');
     }
   }
 
@@ -84,8 +82,7 @@ class _HomeState extends State<Home> {
                     children: [
                       App1(),
                       App2(),
-                      // App3(),
-                      DocumentForm(),
+                      App3(),
                     ],
                   ),
                 ),

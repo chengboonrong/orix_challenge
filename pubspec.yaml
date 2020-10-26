@@ -35,7 +35,7 @@ dependencies:
   shared_preferences: ^0.5.12+2
   local_auth: ^0.6.3+3
   flutter_easyloading: ^2.0.0
-  flutter_form_builder: ^3.14.1
+  # flutter_form_builder: ^3.14.1
   uuid: ^2.2.2
   fluttertoast: ^7.1.1
   google_fonts: ^1.1.1

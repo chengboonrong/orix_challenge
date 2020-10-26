@@ -152,6 +152,7 @@ Future<String> signInWithEmailPassword(String email, String password) async {
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool('first_time', false);
+      prefs.setBool('googleSign', false);
       prefs.setBool('auth', true);
       prefs.setStringList('uprofile', [uid, user.displayName, userEmail]);
       prefs.setStringList(
@@ -275,6 +276,7 @@ Future<String> signInWithGoogle() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('first_time', false);
+    prefs.setBool('googleSign', true);
     prefs.setBool('auth', true);
     prefs.setStringList(
         'uprofile', [uid, user.displayName, userEmail, imageUrl]);

@@ -20,7 +20,8 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  bool _firstTime;
+  bool _firstTime = false;
+  bool hasBio = false;
 
   @override
   void initState() {
@@ -35,7 +36,9 @@ class _WelcomePageState extends State<WelcomePage> {
 
     if (Bio.checkBiometrics() != null) {
       Bio.getAvailableBiometrics().then((value) => print(value));
-      // Bio.authenticate();
+      setState(() {
+        hasBio = true;
+      });
     }
   }
 

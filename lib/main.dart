@@ -1,47 +1,46 @@
-import 'dart:convert';
+import 'package:flutter/material.dart';
+// import 'package:my_app/loginPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:my_app/HomePage.dart';
+import 'package:my_app/loginSignup.dart';
 
-import 'package:http/http.dart' as http;
-
-class Mobile {
-  String id;
-  String diskName;
-
-  Mobile({this.id, this.diskName});
-}
-
-class Deal {
-  String title;
-  Mobile mobileicon;
-
-  Deal({this.title, this.mobileicon});
-}
-
-Future<List<Deal>> getList() async {
-  var url =
-      'https://www.tunetalk.com/my/api/tunetalk/nowtrending/en/json/off/0/lim/50/';
-  var response = await http.get(url);
-
-  var _deals = List<Deal>();
-  if (response.statusCode == 200) {
-    print('yes');
-
-    var listdeals = json.decode(response.body)['deals'];
-    listdeals.forEach((json) {
-      _deals.add(Deal(
-          title: json['title'],
-          mobileicon: Mobile(
-              id: int(json['mobileicon']['id']),
-              diskName: json['mobileicon']['disk_name'])));
-    });
-    // print(json));
-    print(_deals);
-
-    return _deals;
-  } else {
-    return _deals;
-  }
+Future<bool> checkAuth() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool _result = prefs.getBool('auth');
+  print('auth: $_result');
+  print('googleSign: ${prefs.getBool('googleSign')}');
+  return _result;
 }
 
 void main() {
-  getList();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Widget _defaultHome = new LoginSignup();
+  bool _check = false;
+  checkAuth().then((result) => _check = result);
+  if (_check) {
+    _defaultHome = new Home();
+  }
+
+  runApp(new MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: 'App',
+    home: _defaultHome,
+    routes: <String, WidgetBuilder>{
+      // Set routes for using the Navigator.
+      '/home': (BuildContext context) => new Home(),
+      '/login': (BuildContext context) => new LoginSignup()
+    },
+  ));
+
+  // configLoading();
 }
+
+// void configLoading() {
+//   EasyLoading.instance
+//     ..displayDuration = const Duration(milliseconds: 2000)
+//     ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+//     ..loadingStyle = EasyLoadingStyle.light
+//     ..userInteractions = true;
+// }
