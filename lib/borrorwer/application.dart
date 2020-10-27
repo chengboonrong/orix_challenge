@@ -87,59 +87,65 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Container(
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(2),
-                  itemCount: _applications.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                        onTap: () => showMyDialog(context,
-                            'Loan Amount: RM ${_applications[index].la} \nLoan Tenure: ${_applications[index].lt} months'),
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          child: Column(
-                            children: [
-                              ListTile(
-                                leading: Icon(Icons.verified_user_rounded),
-                                title: Text('${_applications[index].name}'),
-                                subtitle: Text(
-                                  '${_applications[index].email}',
-                                  style: TextStyle(
-                                      color: Colors.black.withOpacity(0.6)),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(
-                                  'Credit Score: ${_applications[index].score}',
-                                  style: TextStyle(
-                                      color: Colors.black.withOpacity(0.6)),
-                                ),
-                              ),
-                              ButtonBar(
-                                alignment: MainAxisAlignment.start,
+      body: RefreshIndicator(
+          child: isLoading
+              ? Center(child: CircularProgressIndicator())
+              : Container(
+                  child: ListView.builder(
+                      padding: const EdgeInsets.all(2),
+                      itemCount: _applications.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                            onTap: () => showMyDialog(context,
+                                'Loan Amount: RM ${_applications[index].la} \nLoan Tenure: ${_applications[index].lt} months'),
+                            child: Card(
+                              clipBehavior: Clip.antiAlias,
+                              child: Column(
                                 children: [
-                                  FlatButton(
-                                    onPressed: () {
-                                      // Perform some action
-                                    },
-                                    child: const Text('Accept'),
+                                  ListTile(
+                                    leading: Icon(Icons.verified_user_rounded),
+                                    title: Text('${_applications[index].name}'),
+                                    subtitle: Text(
+                                      '${_applications[index].email}',
+                                      style: TextStyle(
+                                          color: Colors.black.withOpacity(0.6)),
+                                    ),
                                   ),
-                                  FlatButton(
-                                    onPressed: () {
-                                      // Perform some action
-                                    },
-                                    child: const Text('Reject'),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(
+                                      'Credit Score: ${_applications[index].score}',
+                                      style: TextStyle(
+                                          color: Colors.black.withOpacity(0.6)),
+                                    ),
+                                  ),
+                                  ButtonBar(
+                                    alignment: MainAxisAlignment.start,
+                                    children: [
+                                      FlatButton(
+                                        onPressed: () {
+                                          // Perform some action
+                                        },
+                                        child: const Text('Accept'),
+                                      ),
+                                      FlatButton(
+                                        onPressed: () {
+                                          // Perform some action
+                                        },
+                                        child: const Text('Reject'),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ));
-                  }),
-            ),
+                            ));
+                      }),
+                ),
+          onRefresh: () {
+            Navigator.pushReplacement(context,
+                PageRouteBuilder(pageBuilder: (a, b, c) => MyHomePage()));
+            return Future.value(false);
+          }),
     );
   }
 }

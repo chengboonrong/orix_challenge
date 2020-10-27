@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:my_app/loginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:my_app/HomePage.dart';
+import 'package:my_app/lender/HomePage_L.dart';
 import 'package:my_app/loginSignup.dart';
 
 Future<bool> checkAuth() async {
@@ -33,14 +31,4 @@ void main() {
       '/login': (BuildContext context) => new LoginSignup()
     },
   ));
-
-  // configLoading();
 }
-
-// void configLoading() {
-//   EasyLoading.instance
-//     ..displayDuration = const Duration(milliseconds: 2000)
-//     ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-//     ..loadingStyle = EasyLoadingStyle.light
-//     ..userInteractions = true;
-// }

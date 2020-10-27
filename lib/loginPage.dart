@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/HomePage.dart';
+import 'package:my_app/borrorwer/HomePage_B.dart';
+// import 'package:my_app/lender/HomePage_L.dart';
 import 'package:my_app/forgotPassword.dart';
 import 'package:my_app/registerPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/welcomePage.dart';
-// ainasdjksahklsj
 import 'package:my_app/widgets/bezierContainer.dart';
-
 import 'package:my_app/utils/authentication.dart' as GoogleSignIn;
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 

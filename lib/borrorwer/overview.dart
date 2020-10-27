@@ -2,8 +2,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:countup/countup.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:my_app/loginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/utils/authentication.dart' as GoogleSignIn;
 import 'package:my_app/welcomePage.dart';
@@ -18,24 +16,31 @@ class App1 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Card(
+            Expanded(
+              child: Card(
                 child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Number of registered users',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20),
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          'Number of registered users',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 26),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ShowNumbers()
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ShowNumbers()
-                ],
+                ),
               ),
-            ))
+            ),
+            ShowData()
           ],
         ),
       )),
@@ -120,7 +125,7 @@ class _ShowNumbersState extends State<ShowNumbers> {
         separator: ',',
         curve: Curves.fastLinearToSlowEaseIn,
         style: TextStyle(
-          fontSize: 36,
+          fontSize: 48,
         ),
       ),
       !checkGoogleSign
@@ -352,5 +357,163 @@ class PhotoHero extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ShowData extends StatefulWidget {
+  ShowData({Key key}) : super(key: key);
+
+  @override
+  _ShowDataState createState() => _ShowDataState();
+}
+
+class _ShowDataState extends State<ShowData> {
+  final databaseReference = FirebaseDatabase.instance.reference();
+
+  List<int> numberList = [0, 0, 0];
+  List<String> stringList = ['Application', 'Accept', 'Reject'];
+
+  Future<void> getApplicationData() async {
+    var _applicationCount = 0;
+    var accepts = List();
+    var rejects = List();
+    await databaseReference
+        .child("applications")
+        .once()
+        .then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        _applicationCount = snapshot.value.length;
+        // print(snapshot.value);
+        snapshot.value.forEach((k, v) {
+          if (v['Approval'] != null) {
+            v['Approval'] ? accepts.add(k) : rejects.add(k);
+          }
+        });
+      }
+    });
+
+    // print('$_applicationCount, $rejectCount, $acceptCount');
+
+    setState(() {
+      numberList[0] = (_applicationCount);
+      numberList[1] = (accepts.length);
+      numberList[2] = (rejects.length);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getApplicationData();
+  }
+
+  int _index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: SizedBox(
+      height: 180, // card height
+      child: PageView.builder(
+          itemCount: 3,
+          controller: PageController(viewportFraction: 0.7),
+          onPageChanged: (int index) => setState(() => _index = index),
+          itemBuilder: (_, i) {
+            return Transform.scale(
+              scale: i == _index ? 1 : 0.9,
+              child: Card(
+                elevation: 6,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: Column(children: [
+                    Text(
+                      "${stringList[_index]}",
+                      style: TextStyle(fontSize: 26),
+                    ),
+                    Text(
+                      "${numberList[_index]}",
+                      style: TextStyle(fontSize: 36),
+                    ),
+                  ]),
+                ),
+              ),
+            );
+          }),
+    )
+        // Column(
+        //   children: <Widget>[
+        //     Card(
+        //       child: Padding(
+        //         padding: EdgeInsets.all(16.0),
+        //         child: Column(
+        //           crossAxisAlignment: CrossAxisAlignment.stretch,
+        //           children: [
+        //             Text(
+        //               'Applications',
+        //               textAlign: TextAlign.center,
+        //               style: TextStyle(fontSize: 20),
+        //             ),
+        //             SizedBox(
+        //               height: 10,
+        //             ),
+        //             Text(
+        //               '$applicationCount',
+        //               textAlign: TextAlign.center,
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //     Card(
+        //       child: Padding(
+        //         padding: EdgeInsets.all(16.0),
+        //         child: Column(
+        //           crossAxisAlignment: CrossAxisAlignment.stretch,
+        //           children: [
+        //             Text(
+        //               'Applications',
+        //               textAlign: TextAlign.center,
+        //               style: TextStyle(fontSize: 20),
+        //             ),
+        //             SizedBox(
+        //               height: 10,
+        //             ),
+        //             Text(
+        //               '$applicationCount',
+        //               textAlign: TextAlign.center,
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //     Card(
+        //       child: Padding(
+        //         padding: EdgeInsets.all(16.0),
+        //         child: Column(
+        //           crossAxisAlignment: CrossAxisAlignment.stretch,
+        //           children: [
+        //             Text(
+        //               'Applications',
+        //               textAlign: TextAlign.center,
+        //               style: TextStyle(fontSize: 20),
+        //             ),
+        //             SizedBox(
+        //               height: 10,
+        //             ),
+        //             Text(
+        //               '$applicationCount',
+        //               textAlign: TextAlign.center,
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     )
+        //   ],
+        // ),
+
+        );
   }
 }
