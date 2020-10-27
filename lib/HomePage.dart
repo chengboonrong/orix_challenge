@@ -53,42 +53,46 @@ class _HomeState extends State<Home> {
     }
 
     return WillPopScope(
-        onWillPop: _onBackPressed,
-        child: new MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Stack(children: <Widget>[
-              DefaultTabController(
-                length: 3,
-                child: Scaffold(
-                  appBar: AppBar(
-                      flexibleSpace: SafeArea(
-                    child: TabBar(
-                      tabs: [
-                        Tab(
-                          icon: Icon(Icons.assessment),
-                          text: 'Overview',
-                        ),
-                        Tab(
-                          icon: Icon(Icons.history),
-                          text: 'Applications',
-                        ),
-                        Tab(
-                          icon: Icon(Icons.folder),
-                          text: 'Form',
-                        ),
-                      ],
+      onWillPop: _onBackPressed,
+      child: new MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Stack(children: <Widget>[
+          DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(
+                title: Center(child: Text('Borrower View')),
+              ),
+              body: TabBarView(
+                children: [
+                  App1(),
+                  App2(),
+                ],
+              ),
+              bottomNavigationBar: Container(
+                color: Colors.blueAccent,
+                child: TabBar(
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.white30,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorPadding: EdgeInsets.all(5.0),
+                  indicatorColor: Colors.blue,
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.assessment),
+                      text: 'Overview',
                     ),
-                    // title: Text('Lenders View'),
-                  )),
-                  body: TabBarView(
-                    children: [
-                      App1(),
-                      App2(),
-                      App3(),
-                    ],
-                  ),
+                    Tab(
+                      icon: Icon(Icons.history),
+                      text: 'Applications',
+                    ),
+                  ],
                 ),
               ),
-            ])));
+            ),
+          ),
+        ]),
+      ),
+    );
   }
 }
