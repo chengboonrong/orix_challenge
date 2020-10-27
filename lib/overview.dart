@@ -63,6 +63,7 @@ class _ShowNumbersState extends State<ShowNumbers> {
     var stringList = prefs.getStringList('uprofile') != null
         ? prefs.getStringList('uprofile')
         : prefs.getStringList('touchID_uprofile');
+
     setState(() {
       if (checkGoogleSign) {
         uid = stringList[0];
@@ -70,6 +71,7 @@ class _ShowNumbersState extends State<ShowNumbers> {
         email = stringList[2];
         imageUrl = stringList[3];
       } else {
+        print(prefs.getStringList('uprofile'));
         uid = stringList[0];
         name = stringList[1];
         email = stringList[2];
@@ -97,6 +99,7 @@ class _ShowNumbersState extends State<ShowNumbers> {
     super.initState();
 
     getUserProfile();
+    // print('$checkGoogleSign, $name, $uid, $email');
 
     readData().then((value) {
       setState(() {
@@ -120,6 +123,199 @@ class _ShowNumbersState extends State<ShowNumbers> {
           fontSize: 36,
         ),
       ),
+      !checkGoogleSign
+          ? GestureDetector(
+              child: Hero(
+                tag: 'photo',
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                            top: 18, bottom: 18, left: 33, right: 33),
+                        color: Colors.lightBlueAccent,
+                        child: Text(
+                          '${name.toString().toUpperCase().substring(0, 1)}',
+                          style: TextStyle(color: Colors.white, fontSize: 50),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute<void>(
+                            builder: (BuildContext context) {
+                          return Scaffold(
+                            body: Container(
+                              // The blue background emphasizes that it's a new route.
+                              // color: Colors.lightBlueAccent,
+                              padding: const EdgeInsets.only(
+                                  top: 250, left: 16, right: 16),
+                              child: Column(children: <Widget>[
+                                Hero(
+                                  tag: 'photo',
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            top: 18,
+                                            bottom: 18,
+                                            left: 33,
+                                            right: 33),
+                                        color: Colors.lightBlueAccent,
+                                        child: Text(
+                                          '${name.toString().toUpperCase().substring(0, 1)}',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 50),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text: '',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 20),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: '$name\n',
+                                          style: TextStyle(fontSize: 30)),
+                                      TextSpan(
+                                        text: 'UID: $uid\n',
+                                        style: TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontSize: 16),
+                                      ),
+                                      TextSpan(
+                                        text: 'Email: $email\n',
+                                        style: TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontSize: 16),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  onPressed: () {
+                                    GoogleSignIn.signOutGoogle();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WelcomePage()),
+                                    );
+                                  },
+                                  color: Colors.redAccent,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(Icons.exit_to_app,
+                                            color: Colors.white),
+                                        SizedBox(width: 10),
+                                        Text('Log out of Google',
+                                            style:
+                                                TextStyle(color: Colors.white))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                            ),
+                          );
+                        }));
+                      }),
+                ),
+              ),
+            )
+          : GestureDetector(
+              child: PhotoHero(
+                  photo: '$imageUrl',
+                  // width: 300.0,
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute<void>(
+                        builder: (BuildContext context) {
+                      return Scaffold(
+                        body: Container(
+                          // The blue background emphasizes that it's a new route.
+                          // color: Colors.lightBlueAccent,
+                          padding: const EdgeInsets.only(
+                              top: 250, left: 16, right: 16),
+                          child: Column(children: <Widget>[
+                            PhotoHero(
+                              photo: '$imageUrl',
+                              width: 100.0,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                text: '',
+                                style: TextStyle(
+                                    color: Colors.blueGrey, fontSize: 20),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: '$name\n',
+                                      style: TextStyle(fontSize: 30)),
+                                  TextSpan(
+                                    text: 'UID: $uid\n',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 16),
+                                  ),
+                                  TextSpan(
+                                    text: 'Email: $email\n',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 16),
+                                  )
+                                ],
+                              ),
+                            ),
+                            FlatButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              onPressed: () {
+                                GoogleSignIn.signOutGoogle();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WelcomePage()),
+                                );
+                              },
+                              color: Colors.redAccent,
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.exit_to_app,
+                                        color: Colors.white),
+                                    SizedBox(width: 10),
+                                    Text('Log out of Google',
+                                        style: TextStyle(color: Colors.white))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ]),
+                        ),
+                      );
+                    }));
+                  }),
+            ),
       RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
@@ -127,110 +323,6 @@ class _ShowNumbersState extends State<ShowNumbers> {
           style: DefaultTextStyle.of(context).style,
         ),
       ),
-      // !checkGoogleSign ?
-      FlatButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          onPressed: () {
-            GoogleSignIn.signOutGoogle();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => WelcomePage()),
-            );
-          },
-          color: Colors.redAccent,
-          child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.exit_to_app, color: Colors.white),
-                  SizedBox(width: 10),
-                  Text('Log out of Google',
-                      style: TextStyle(color: Colors.white))
-                ],
-              )))
-      // : GestureDetector(
-      //     child: PhotoHero(
-      //         photo: '$imageUrl',
-      //         // width: 300.0,
-      //         onTap: () {
-      //           Navigator.of(context).push(MaterialPageRoute<void>(
-      //               builder: (BuildContext context) {
-      //             return Scaffold(
-      //               body: Container(
-      //                 // The blue background emphasizes that it's a new route.
-      //                 // color: Colors.lightBlueAccent,
-      //                 padding: const EdgeInsets.only(
-      //                     top: 250, left: 16, right: 16),
-      //                 child: Column(children: <Widget>[
-      //                   PhotoHero(
-      //                     photo: '$imageUrl',
-      //                     width: 100.0,
-      //                     onTap: () {
-      //                       Navigator.of(context).pop();
-      //                     },
-      //                   ),
-      //                   RichText(
-      //                     textAlign: TextAlign.center,
-      //                     text: TextSpan(
-      //                       text: '',
-      //                       style: TextStyle(
-      //                           color: Colors.blueGrey, fontSize: 20),
-      //                       children: <TextSpan>[
-      //                         TextSpan(
-      //                             text: '$name\n',
-      //                             style: TextStyle(fontSize: 30)),
-      //                         TextSpan(
-      //                           text: 'UID: $uid\n',
-      //                           style: TextStyle(
-      //                               color: Colors.blueGrey, fontSize: 16),
-      //                         ),
-      //                         TextSpan(
-      //                           text: 'Email: $email\n',
-      //                           style: TextStyle(
-      //                               color: Colors.blueGrey, fontSize: 16),
-      //                         )
-      //                       ],
-      //                     ),
-      //                   ),
-      //                   FlatButton(
-      //                       shape: RoundedRectangleBorder(
-      //                         borderRadius: BorderRadius.circular(20),
-      //                       ),
-      //                       onPressed: () {
-      //                         GoogleSignIn.signOutGoogle();
-      //                         Navigator.push(
-      //                           context,
-      //                           MaterialPageRoute(
-      //                               builder: (context) => WelcomePage()),
-      //                         );
-      //                       },
-      //                       color: Colors.redAccent,
-      //                       child: Padding(
-      //                           padding: EdgeInsets.all(10),
-      //                           child: Row(
-      //                             mainAxisAlignment:
-      //                                 MainAxisAlignment.center,
-      //                             crossAxisAlignment:
-      //                                 CrossAxisAlignment.center,
-      //                             children: <Widget>[
-      //                               Icon(Icons.exit_to_app,
-      //                                   color: Colors.white),
-      //                               SizedBox(width: 10),
-      //                               Text('Log out of Google',
-      //                                   style:
-      //                                       TextStyle(color: Colors.white))
-      //                             ],
-      //                           )))
-      //                 ]),
-      //               ),
-      //             );
-      //           }));
-      //         }),
-      //   ),
     ]));
   }
 }

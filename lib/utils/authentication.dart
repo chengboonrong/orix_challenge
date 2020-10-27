@@ -140,7 +140,7 @@ Future<String> signInWithEmailPassword(String email, String password) async {
       userEmail = user.email;
 
       final endIndex = email.toString().indexOf(".com");
-      databaseReference
+      await databaseReference
           .child('users/${user.email.toString().substring(0, endIndex)}')
           .once()
           .then((value) => userName = value.value['uname']);
