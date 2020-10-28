@@ -5,9 +5,9 @@ import 'package:local_auth/local_auth.dart';
 
 final LocalAuthentication auth = LocalAuthentication();
 
-Future<void> checkBiometrics() async {
+Future<bool> checkBiometrics() async {
   try {
-    await auth.canCheckBiometrics;
+    await auth.canCheckBiometrics.then((value) => print(value));
     return true;
   } on PlatformException catch (e) {
     print(e);

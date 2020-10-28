@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/borrorwer/HomePage_B.dart';
+import 'package:my_app/borrower/HomePage_B.dart';
 // import 'package:my_app/lender/HomePage_L.dart';
 import 'package:my_app/forgotPassword.dart';
 import 'package:my_app/registerPage.dart';
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _firstTime;
+  bool _firstTime = false;
 
   @override
   void initState() {

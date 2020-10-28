@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:my_app/lender/form.dart';
-import 'package:my_app/lender/overview.dart';
+import 'package:my_app/lender/application.dart';
+import 'package:my_app/lender/overview_L.dart';
 import 'dart:io';
 
 class Home extends StatefulWidget {
@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
               body: TabBarView(
                 children: [
                   App1(),
-                  App3(),
+                  App2(),
                 ],
               ),
               bottomNavigationBar: Container(
@@ -81,7 +81,7 @@ class _HomeState extends State<Home> {
                     ),
                     Tab(
                       icon: Icon(Icons.history),
-                      text: 'Form',
+                      text: 'Application',
                     ),
                   ],
                 ),

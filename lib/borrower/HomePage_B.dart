@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:my_app/borrorwer/application.dart';
-import 'package:my_app/borrorwer/overview.dart';
+import 'package:my_app/borrower/form.dart';
+import 'package:my_app/borrower/overview_B.dart';
 import 'dart:io';
 
 class Home extends StatefulWidget {
@@ -57,13 +57,13 @@ class _HomeState extends State<Home> {
           DefaultTabController(
             length: 2,
             child: Scaffold(
-              appBar: AppBar(
-                title: Center(child: Text('Borrower View')),
-              ),
+              // appBar: AppBar(
+              // title: Center(child: Text('Borrower View')),
+              // ),
               body: TabBarView(
                 children: [
                   App1(),
-                  App2(),
+                  App3(),
                 ],
               ),
               bottomNavigationBar: Container(
@@ -77,11 +77,11 @@ class _HomeState extends State<Home> {
                   tabs: [
                     Tab(
                       icon: Icon(Icons.assessment),
-                      text: 'Overview',
+                      text: 'Status',
                     ),
                     Tab(
-                      icon: Icon(Icons.history),
-                      text: 'Applications',
+                      icon: Icon(Icons.drafts),
+                      text: 'Apply',
                     ),
                   ],
                 ),

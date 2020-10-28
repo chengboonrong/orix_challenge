@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_app/utils/authentication.dart' as Auth;
-import 'package:my_app/borrorwer/HomePage_B.dart';
+import 'package:my_app/borrower/HomePage_B.dart';
 import 'package:my_app/loginPage.dart';
 import 'package:my_app/registerPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/utils/biometric.dart' as Bio;
-
-// import 'package:test_app/utils/authentication.dart' as GoogleSignIn;
 
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key key, this.title}) : super(key: key);
