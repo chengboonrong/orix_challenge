@@ -31,7 +31,7 @@ void saveUser(uid, uname, uemail) async {
 
 Future<bool> isFirstTime() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  print(prefs.getKeys());
+  // print(prefs.getKeys());
   bool _isFirstTime;
 
   try {

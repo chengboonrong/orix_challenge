@@ -10,6 +10,7 @@ import 'package:my_app/utils/authentication.dart' as GoogleSignIn;
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -29,6 +30,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+
+    checkAuth().then((value) {
+      if (value) {
+        CircularProgressIndicator();
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
+    });
 
     GoogleSignIn.isFirstTime().then((value) {
       print('first time: $value');
@@ -315,44 +323,54 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
+  Future<bool> checkAuth() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _result = prefs.getBool('auth');
+    print('auth: $_result');
+    // print('googleSign: ${prefs.getBool('googleSign')}');
+    return _result;
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        body: Container(
-      height: height,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-              top: -height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: BezierContainer()),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: height * .2),
-                  _title(),
-                  SizedBox(height: 50),
-                  _emailPasswordWidget(),
-                  SizedBox(height: 20),
-                  _submitButton(),
-                  _forgotButton(),
-                  _divider(),
-                  _googleButton(),
-                  // _facebookButton(),
-                  SizedBox(height: height * .035),
-                  _createAccountLabel(),
-                ],
+      body: Container(
+        height: height,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+                top: -height * .15,
+                right: -MediaQuery.of(context).size.width * .4,
+                child: BezierContainer()),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: height * .2),
+                    _title(),
+                    SizedBox(height: 50),
+                    _emailPasswordWidget(),
+                    SizedBox(height: 20),
+                    _submitButton(),
+                    _forgotButton(),
+                    _divider(),
+                    _googleButton(),
+                    // _facebookButton(),
+                    SizedBox(height: height * .035),
+                    _createAccountLabel(),
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(top: 40, left: 0, child: _backButton()),
-        ],
+            Positioned(top: 40, left: 0, child: _backButton()),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

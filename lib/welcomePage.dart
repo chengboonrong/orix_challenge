@@ -25,14 +25,14 @@ class _WelcomePageState extends State<WelcomePage> {
     super.initState();
 
     Auth.isFirstTime().then((value) {
-      print('first time: $value');
+      // print('first time: $value');
       setState(() {
         _firstTime = value;
       });
     });
 
     if (Bio.checkBiometrics() != null) {
-      Bio.getAvailableBiometrics().then((value) => print(value));
+      Bio.getAvailableBiometrics();
       setState(() {
         hasBio = true;
       });

@@ -7,10 +7,10 @@ final LocalAuthentication auth = LocalAuthentication();
 
 Future<bool> checkBiometrics() async {
   try {
-    await auth.canCheckBiometrics.then((value) => print(value));
+    await auth.canCheckBiometrics;
     return true;
   } on PlatformException catch (e) {
-    print(e);
+    // print(e);
     return null;
   }
 }
@@ -33,7 +33,7 @@ Future<List> getAvailableBiometrics() async {
 
     return availableBiometrics;
   } on PlatformException catch (e) {
-    print(e);
+    // print(e);
     return null;
   }
 }
@@ -46,7 +46,7 @@ Future<bool> authenticate() async {
         stickyAuth: true);
     return _result;
   } on PlatformException catch (e) {
-    print(e);
+    // print(e);
     return false;
   }
 }

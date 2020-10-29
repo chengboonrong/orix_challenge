@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/utils/authentication.dart' as Auth;
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+// import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 
 class App3 extends StatelessWidget {
   @override
@@ -31,6 +33,22 @@ class _MyHomePageState extends State<MyHomePage> {
   final databaseReference = FirebaseDatabase.instance.reference();
 
   final valueList = ["-1", "0", "1"];
+
+  List<String> userProfile = List<String>();
+
+  bool checkGoogleSign = false;
+
+  Future<void> getUserProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    checkGoogleSign = prefs.getBool('googleSign');
+    var stringList = prefs.getStringList('uprofile') != null
+        ? prefs.getStringList('uprofile')
+        : prefs.getStringList('touchID_uprofile');
+
+    setState(() {
+      userProfile = stringList;
+    });
+  }
 
   void createCustomer(
       String puc,
@@ -79,9 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // then parse the JSON.
       print('Sent!');
       print(response.body);
-      databaseReference.child("applications/${Uuid().v4()}").set({
-        'name': Auth.googleSignIn.currentUser.displayName,
-        'email': Auth.googleSignIn.currentUser.email,
+
+      var _uuid = Uuid().v4();
+
+      // save to applications ref
+      databaseReference.child("applications/$_uuid").set({
+        'name': userProfile[1],
+        'email': userProfile[2],
         'Paid-up Capital': puc,
         'Loan Amount': la,
         'Loan Tenure': lt,
@@ -98,6 +120,17 @@ class _MyHomePageState extends State<MyHomePage> {
         'Net Profit After Tax': npat,
         'credit score': json.decode(response.body)['score'],
       });
+
+      var _email = userProfile[2];
+      _email = _email.substring(0, _email.length - 4);
+
+      // save to $user applications ref
+      databaseReference.child("users/$_email/applications/$_uuid").set({
+        "appID": Uuid().v4().substring(0, 6),
+        "time": new DateFormat.yMMMd().format(new DateTime.now()).toString(),
+        "status": 0,
+      });
+
       print('Sent successfully!');
     } else {
       // If the server did not return a 201 CREATED response,
@@ -165,6 +198,13 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+
+    getUserProfile();
+  }
+
   Widget _customTextField(
       TextEditingController myController, String label, bool specialCase) {
     return Padding(
@@ -204,12 +244,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                // alignment: Alignment.center,
                 child: SingleChildScrollView(
-                  reverse: true,
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(

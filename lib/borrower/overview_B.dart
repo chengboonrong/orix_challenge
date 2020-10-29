@@ -48,29 +48,28 @@ class _App1State extends State<App1> {
   List _applications = List();
   bool _gtData = false;
   bool isLoading = true;
-  Color _color = Colors.amber;
+  List<Color> colors = [Colors.amber, Colors.green, Colors.red];
+  List<String> status = ["Processing", "Accepted", "Rejected"];
 
   Future readData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    var users = List();
     var applications = List();
     var gtData = true;
 
     await databaseReference.once().then((DataSnapshot snapshot) {
       if (snapshot.value['users'] != null) {
-        snapshot.value['users'].forEach((k, v) => users.add(v));
-
         var currentUser = prefs.getStringList('uprofile') != null
             ? prefs.getStringList('uprofile')
             : prefs.getStringList('touchID_uprofile');
 
         int len = currentUser[2].length;
         String dbID = currentUser[2].substring(0, len - 4);
-        // print(dbID);
+        // print(snapshot.value['users'][dbID]['applications']);
 
         snapshot.value['users'][dbID]['applications'] != null
-            ? applications.add(snapshot.value['users'][dbID]['applications'])
+            ? snapshot.value['users'][dbID]['applications']
+                .forEach((k, v) => applications.add(v))
             : gtData = false;
       }
 
@@ -80,8 +79,6 @@ class _App1State extends State<App1> {
         isLoading = false;
       });
     });
-
-    return users;
   }
 
   @override
@@ -89,14 +86,17 @@ class _App1State extends State<App1> {
     super.initState();
 
     getUserProfile();
-    // print('$checkGoogleSign, $name, $uid, $email');
 
     readData().then((value) {
       setState(() {
         print(_applications);
-        _users.addAll(value);
       });
     });
+  }
+
+  Future<dynamic> _refresh() {
+    _applications = List();
+    return readData();
   }
 
   @override
@@ -113,70 +113,74 @@ class _App1State extends State<App1> {
                       MaterialLocalizations.of(context).openAppDrawerTooltip,
                 )),
       ),
-      body: Center(
-        child: isLoading
-            ? CircularProgressIndicator()
-            : Container(
-                child: !_gtData
-                    ? Text('No application submitted')
-                    : ListView.builder(
-                        itemCount: _applications.length,
-                        itemBuilder: (context, index) {
-                          _applications[index]['status'].toString() !=
-                                      'Processing' &&
-                                  _applications[index]['status'].toString() ==
-                                      'Accepted'
-                              ? _color = Colors.green
-                              : _color = Colors.red;
-
-                          return Card(
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 25, bottom: 25, left: 16, right: 26),
-                                  child: Column(
+      body: RefreshIndicator(
+        child: Center(
+          child: isLoading
+              ? CircularProgressIndicator()
+              : Container(
+                  child: !_gtData
+                      ? Text('No application submitted')
+                      : ListView.builder(
+                          itemCount: _applications.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Row(
                                     children: [
-                                      Text(
-                                        index.toString(),
-                                        style: TextStyle(fontSize: 25),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 20),
+                                        child: Text(
+                                          index.toString(),
+                                          style: TextStyle(fontSize: 25),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 40.0,
+                                        width: 1.0,
+                                        color: Colors.black38,
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              'Application ID: ${_applications[index]['appID'].toString()}'),
+                                          Text(
+                                              'Time created: ${_applications[index]['time'].toString()}')
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        'Application ID: ${_applications[index]['appID'].toString()}'),
-                                    Text(
-                                        'Time created: ${_applications[index]['time'].toString()}')
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 68),
-                                  child: Column(
+                                  Row(
                                     children: [
                                       Container(
-                                          decoration: BoxDecoration(
-                                              color: _color,
-                                              borderRadius:
-                                                  BorderRadius.circular(60)),
-                                          padding: const EdgeInsets.all(12),
-                                          child: Text(
-                                            '${_applications[index]['status'].toString()}',
-                                            style: TextStyle(fontSize: 18),
-                                          )),
+                                        decoration: BoxDecoration(
+                                            color: colors[_applications[index]
+                                                ['status']],
+                                            borderRadius:
+                                                BorderRadius.circular(60)),
+                                        padding: const EdgeInsets.all(12),
+                                        child: Text(
+                                          '${status[_applications[index]['status']]}',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
                                     ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-              ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                ),
+        ),
+        onRefresh: () => _refresh(),
       ),
       drawer: Drawer(
         child: Center(
@@ -190,7 +194,7 @@ class _App1State extends State<App1> {
                   ? Padding(
                       padding: const EdgeInsets.only(top: 16),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Column(
                             children: <Widget>[
@@ -289,7 +293,7 @@ class _App1State extends State<App1> {
                       ),
                     ),
               Padding(
-                  padding: const EdgeInsets.only(top: 0, right: 10),
+                  padding: const EdgeInsets.only(top: 0, right: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
