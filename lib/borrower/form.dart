@@ -6,8 +6,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_app/utils/authentication.dart' as Auth;
-// import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 
 class App3 extends StatelessWidget {
@@ -144,28 +142,28 @@ class _MyHomePageState extends State<MyHomePage> {
   final pucController = TextEditingController();
   final laController = TextEditingController();
   final ltController = TextEditingController();
-  final nca_cyController = TextEditingController();
-  final ca_cyController = TextEditingController();
-  final ta_cyController = TextEditingController();
-  final cl_cyController = TextEditingController();
-  final tl_cyController = TextEditingController();
-  final sc_cyController = TextEditingController();
-  final re_cyController = TextEditingController();
-  final net_cyController = TextEditingController();
-  final rev_cyController = TextEditingController();
-  final npbt_cyController = TextEditingController();
-  final npat_cyController = TextEditingController();
-  final nca_lyController = TextEditingController();
-  final ca_lyController = TextEditingController();
-  final ta_lyController = TextEditingController();
-  final cl_lyController = TextEditingController();
-  final tl_lyController = TextEditingController();
-  final sc_lyController = TextEditingController();
-  final re_lyController = TextEditingController();
-  final net_lyController = TextEditingController();
-  final rev_lyController = TextEditingController();
-  final npbt_lyController = TextEditingController();
-  final npat_lyController = TextEditingController();
+  final ncaCYController = TextEditingController();
+  final caCYController = TextEditingController();
+  final taCYController = TextEditingController();
+  final clCYController = TextEditingController();
+  final tlCYController = TextEditingController();
+  final scCYController = TextEditingController();
+  final reCYController = TextEditingController();
+  final netCYController = TextEditingController();
+  final revCYController = TextEditingController();
+  final npbtCYController = TextEditingController();
+  final npatCYController = TextEditingController();
+  final ncaLYController = TextEditingController();
+  final caLYController = TextEditingController();
+  final taLYController = TextEditingController();
+  final clLYController = TextEditingController();
+  final tlLYController = TextEditingController();
+  final scLYController = TextEditingController();
+  final reLYController = TextEditingController();
+  final netLYController = TextEditingController();
+  final revLYController = TextEditingController();
+  final npbtLYController = TextEditingController();
+  final npatLYController = TextEditingController();
 
   @override
   void dispose() {
@@ -173,28 +171,28 @@ class _MyHomePageState extends State<MyHomePage> {
     pucController.dispose();
     laController.dispose();
     ltController.dispose();
-    nca_cyController.dispose();
-    ca_cyController.dispose();
-    ta_cyController.dispose();
-    cl_cyController.dispose();
-    tl_cyController.dispose();
-    sc_cyController.dispose();
-    re_cyController.dispose();
-    net_cyController.dispose();
-    rev_cyController.dispose();
-    npbt_cyController.dispose();
-    npat_cyController.dispose();
-    nca_lyController.dispose();
-    ca_lyController.dispose();
-    ta_lyController.dispose();
-    cl_lyController.dispose();
-    tl_lyController.dispose();
-    sc_lyController.dispose();
-    re_lyController.dispose();
-    net_lyController.dispose();
-    rev_lyController.dispose();
-    npbt_lyController.dispose();
-    npat_lyController.dispose();
+    ncaCYController.dispose();
+    caCYController.dispose();
+    taCYController.dispose();
+    clCYController.dispose();
+    tlCYController.dispose();
+    scCYController.dispose();
+    reCYController.dispose();
+    netCYController.dispose();
+    revCYController.dispose();
+    npbtCYController.dispose();
+    npatCYController.dispose();
+    ncaLYController.dispose();
+    caLYController.dispose();
+    taLYController.dispose();
+    clLYController.dispose();
+    tlLYController.dispose();
+    scLYController.dispose();
+    reLYController.dispose();
+    netLYController.dispose();
+    revLYController.dispose();
+    npbtLYController.dispose();
+    npatLYController.dispose();
     super.dispose();
   }
 
@@ -227,6 +225,122 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
     );
+  }
+
+  Widget showConfirmDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop(false);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Continue"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop(true);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Confirmation"),
+      content: Text("Are you sure you want to submit the application?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    ).then((result) {
+      if (result) {
+        print('Yes to submit');
+        print('All blanks are filled');
+        createCustomer(
+          pucController.text,
+          laController.text,
+          ltController.text,
+          (double.parse(ncaCYController.text) -
+                      double.parse(ncaLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(caCYController.text) -
+                      double.parse(caLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(taCYController.text) -
+                      double.parse(taLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(clCYController.text) -
+                      double.parse(clLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(tlCYController.text) -
+                      double.parse(tlLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(scCYController.text) -
+                      double.parse(scLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(reCYController.text) -
+                      double.parse(reLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(netCYController.text) -
+                      double.parse(netLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(revCYController.text) -
+                      double.parse(revLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(npbtCYController.text) -
+                      double.parse(npbtLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+          (double.parse(npatCYController.text) -
+                      double.parse(npatLYController.text)) >
+                  0
+              ? '1'
+              : '-1',
+        );
+
+        //
+        double _progress = 0;
+        Timer _timer;
+        _timer?.cancel();
+        _timer =
+            Timer.periodic(const Duration(milliseconds: 100), (Timer timer) {
+          EasyLoading.showProgress(_progress,
+              status: '${(_progress * 100).toStringAsFixed(0)}%');
+          _progress += 0.03;
+
+          if (_progress >= 1) {
+            _timer?.cancel();
+            EasyLoading.dismiss();
+            EasyLoading.showSuccess(
+                'You have successfully sent the application. Please head to "View Status" to see your application progress');
+          }
+        });
+      }
+    });
+    return null;
   }
 
   @override
@@ -263,140 +377,60 @@ class _MyHomePageState extends State<MyHomePage> {
                       _customTextField(pucController, 'Paid-up Capital', false),
                       _customTextField(laController, 'Loan Amount', false),
                       _customTextField(ltController, 'Loan Tenure', false),
-                      _customTextField(nca_cyController,
+                      _customTextField(ncaCYController,
                           'Non-Current Assets (Current year)', true),
-                      _customTextField(ca_cyController,
+                      _customTextField(caCYController,
                           'Current Assets (Current year)', true),
                       _customTextField(
-                          ta_cyController, 'Total Assets (Current year)', true),
-                      _customTextField(cl_cyController,
+                          taCYController, 'Total Assets (Current year)', true),
+                      _customTextField(clCYController,
                           'Current Liabilities (Current year)', true),
-                      _customTextField(tl_cyController,
+                      _customTextField(tlCYController,
                           'Total Liabilities (Current year)', true),
-                      _customTextField(sc_cyController,
-                          'Share Capital (Current year)', true),
-                      _customTextField(re_cyController,
+                      _customTextField(
+                          scCYController, 'Share Capital (Current year)', true),
+                      _customTextField(reCYController,
                           'Retained Earnings (Current year)', true),
                       _customTextField(
-                          net_cyController, 'Networth (Current year)', true),
+                          netCYController, 'Networth (Current year)', true),
                       _customTextField(
-                          rev_cyController, 'Revenue (Current year)', true),
-                      _customTextField(npbt_cyController,
+                          revCYController, 'Revenue (Current year)', true),
+                      _customTextField(npbtCYController,
                           'Net Profit Before Tax (Current year)', true),
-                      _customTextField(npat_cyController,
+                      _customTextField(npatCYController,
                           'Net Profit After Tax (Current year)', true),
-                      _customTextField(nca_lyController,
+                      _customTextField(ncaLYController,
                           'Non-Current Assets (Last year)', true),
                       _customTextField(
-                          ca_lyController, 'Current Assets (Last year)', true),
+                          caLYController, 'Current Assets (Last year)', true),
                       _customTextField(
-                          ta_lyController, 'Total Assets (Last year)', true),
-                      _customTextField(cl_lyController,
+                          taLYController, 'Total Assets (Last year)', true),
+                      _customTextField(clLYController,
                           'Current Liabilities (Last year)', true),
-                      _customTextField(tl_lyController,
+                      _customTextField(tlLYController,
                           'Total Liabilities (Last year)', true),
                       _customTextField(
-                          sc_lyController, 'Share Capital (Last year)', true),
-                      _customTextField(re_lyController,
+                          scLYController, 'Share Capital (Last year)', true),
+                      _customTextField(reLYController,
                           'Retained Earnings (Last year)', true),
                       _customTextField(
-                          net_lyController, 'Networth (Last year)', true),
+                          netLYController, 'Networth (Last year)', true),
                       _customTextField(
-                          rev_lyController, 'Revenue (Last year)', true),
-                      _customTextField(npbt_lyController,
+                          revLYController, 'Revenue (Last year)', true),
+                      _customTextField(npbtLYController,
                           'Net Profit Before Tax (Last year)', true),
-                      _customTextField(npat_lyController,
+                      _customTextField(npatLYController,
                           'Net Profit After Tax (Last year)', true),
                       RaisedButton(
                         onPressed: () {
                           FocusScope.of(context).requestFocus(FocusNode());
+                          print('Sending ...');
                           // Validate returns true if the form is valid, otherwise false.
                           if (_formKey.currentState.validate()) {
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
-                            print('all blanks are filled');
-                            createCustomer(
-                              pucController.text,
-                              laController.text,
-                              ltController.text,
-                              (double.parse(nca_cyController.text) -
-                                          double.parse(nca_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(ca_cyController.text) -
-                                          double.parse(ca_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(ta_cyController.text) -
-                                          double.parse(ta_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(cl_cyController.text) -
-                                          double.parse(cl_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(tl_cyController.text) -
-                                          double.parse(tl_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(sc_cyController.text) -
-                                          double.parse(sc_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(re_cyController.text) -
-                                          double.parse(re_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(net_cyController.text) -
-                                          double.parse(net_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(rev_cyController.text) -
-                                          double.parse(rev_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(npbt_cyController.text) -
-                                          double.parse(
-                                              npbt_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                              (double.parse(npat_cyController.text) -
-                                          double.parse(
-                                              npat_lyController.text)) >
-                                      0
-                                  ? '1'
-                                  : '-1',
-                            );
 
-                            //
-                            double _progress = 0;
-                            Timer _timer;
-                            _timer?.cancel();
-                            _timer = Timer.periodic(
-                                const Duration(milliseconds: 100),
-                                (Timer timer) {
-                              EasyLoading.showProgress(_progress,
-                                  status:
-                                      '${(_progress * 100).toStringAsFixed(0)}%');
-                              _progress += 0.03;
-
-                              if (_progress >= 1) {
-                                _timer?.cancel();
-                                EasyLoading.dismiss();
-                                EasyLoading.showSuccess(
-                                    'You have successfully sent the application. Please head to "View Status" to see your application progress');
-                              }
-                            });
+                            showConfirmDialog(context);
                           }
                         },
                         child: Text('Submit'),

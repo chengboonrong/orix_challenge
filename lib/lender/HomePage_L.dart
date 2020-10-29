@@ -57,9 +57,6 @@ class _HomeState extends State<Home> {
           DefaultTabController(
             length: 2,
             child: Scaffold(
-              appBar: AppBar(
-                title: Center(child: Text('Lender View')),
-              ),
               body: TabBarView(
                 children: [
                   App1(),

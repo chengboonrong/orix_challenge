@@ -1,7 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:countup/countup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/utils/authentication.dart' as GoogleSignIn;
 import 'package:my_app/welcomePage.dart';
@@ -44,7 +43,7 @@ class _App1State extends State<App1> {
 
   final databaseReference = FirebaseDatabase.instance.reference();
 
-  List _users = List();
+  // List _users = List();
   List _applications = List();
   bool _gtData = false;
   bool isLoading = true;

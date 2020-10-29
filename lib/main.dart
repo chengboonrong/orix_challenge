@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_app/loginPage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:my_app/lender/HomePage_L.dart';
 import 'package:my_app/borrower/HomePage_B.dart';
-// import 'package:my_app/loginSignup.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 

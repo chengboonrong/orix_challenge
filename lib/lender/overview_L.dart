@@ -10,11 +10,17 @@ class App1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            'Overview',
+          ),
+        ),
+      ),
       body: Center(
           child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
               child: Card(
@@ -23,7 +29,6 @@ class App1 extends StatelessWidget {
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
                           'Number of registered users',
@@ -385,8 +390,8 @@ class _ShowDataState extends State<ShowData> {
         _applicationCount = snapshot.value.length;
         // print(snapshot.value);
         snapshot.value.forEach((k, v) {
-          if (v['Approval'] != null) {
-            v['Approval'] ? accepts.add(k) : rejects.add(k);
+          if (v['approval'] != null) {
+            v['approval'] ? accepts.add(k) : rejects.add(k);
           }
         });
       }

@@ -7,7 +7,7 @@ class App2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: _buildShrineTheme(),
+        // theme: _buildShrineTheme(),
         home: FlutterEasyLoading(
           child: MyHomePage(title: 'Flutter Demo Home Page'),
         ));
@@ -24,14 +24,44 @@ class MyHomePage extends StatefulWidget {
 }
 
 class Application {
+  String uid;
   String email;
   String name;
   double score;
-  double puc;
+  String puc;
   String la;
   String lt;
+  String nca;
+  String ca;
+  String ta;
+  String tl;
+  String cl;
+  String sc;
+  String re;
+  String net;
+  String rev;
+  String npbt;
+  String npat;
 
-  Application({this.email, this.name, this.score, this.puc, this.la, this.lt});
+  Application(
+      {this.uid,
+      this.email,
+      this.name,
+      this.score,
+      this.puc,
+      this.la,
+      this.lt,
+      this.nca,
+      this.ca,
+      this.ta,
+      this.tl,
+      this.cl,
+      this.sc,
+      this.re,
+      this.net,
+      this.rev,
+      this.npbt,
+      this.npat});
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -41,6 +71,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Application> _applications = List<Application>();
 
+  Future<void> updateStatus(int index, bool approval) async {
+    var _app = _applications[index];
+    databaseReference
+        .child("applications/${_app.uid}")
+        .update({"approval": approval});
+  }
+
   Future<void> readData() async {
     var applications = List<Application>();
     setState(() {
@@ -49,13 +86,31 @@ class _MyHomePageState extends State<MyHomePage> {
     await databaseReference.once().then((DataSnapshot snapshot) {
       if (snapshot.value['applications'] != null) {
         // print(snapshot.value['applications']);
-        snapshot.value['applications'].forEach((k, v) => applications.add(
-            Application(
-                email: v['email'],
-                name: v['name'],
-                score: v['credit score'],
-                la: v['Loan Amount'],
-                lt: v['Loan Tenure'])));
+        snapshot.value['applications'].forEach((k, v) {
+          if (v['approval'] == null) {
+            // print(v['approval']);
+            applications.add(Application(
+              uid: k,
+              email: v['email'],
+              name: v['name'],
+              score: v['credit score'],
+              puc: v['Paid-up Capital'].toString(),
+              la: v['Loan Amount'].toString(),
+              lt: v['Loan Tenure'].toString(),
+              nca: v['Non-Current Assets'].toString(),
+              ca: v['Current Assets'].toString(),
+              ta: v['Total Assets'].toString(),
+              cl: v['Current Liabilities'].toString(),
+              tl: v['Total Liabilities'].toString(),
+              sc: v['Share Capital'].toString(),
+              re: v['Retained Earnings'].toString(),
+              net: v['Networth'].toString(),
+              rev: v['Revenue'].toString(),
+              npbt: v['Net Profit Before Tax'].toString(),
+              npat: v['Net Profit After Tax'].toString(),
+            ));
+          }
+        });
       }
     });
 
@@ -74,6 +129,11 @@ class _MyHomePageState extends State<MyHomePage> {
     readData();
   }
 
+  Future<dynamic> _refresh() {
+    _applications = List();
+    return readData();
+  }
+
   Future<void> showMyDialog(BuildContext context, String displayText) {
     return showDialog<void>(
       context: context,
@@ -85,168 +145,145 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget showConfirmDialog(BuildContext context, String label, int index) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop(false);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Continue"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop(true);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Confirmation"),
+      content: Text("Are you sure you want to $label the application?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    ).then((result) {
+      if (result) {
+        if (label == 'accept') {
+          updateStatus(index, true);
+        } else if (label == 'reject') {
+          updateStatus(index, false);
+        }
+
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (a, b, c) => App2(),
+            transitionDuration: Duration(seconds: 0),
+          ),
+        );
+      }
+    });
+    return null;
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            'Applications',
+          ),
+        ),
+      ),
       body: RefreshIndicator(
           child: isLoading
               ? Center(child: CircularProgressIndicator())
               : Container(
-                  child: ListView.builder(
-                      padding: const EdgeInsets.all(2),
-                      itemCount: _applications.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () => showMyDialog(context,
-                                'Loan Amount: RM ${_applications[index].la} \nLoan Tenure: ${_applications[index].lt} months'),
-                            child: Card(
-                              clipBehavior: Clip.antiAlias,
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    leading: Icon(Icons.verified_user_rounded),
-                                    title: Text('${_applications[index].name}'),
-                                    subtitle: Text(
-                                      '${_applications[index].email}',
-                                      style: TextStyle(
-                                          color: Colors.black.withOpacity(0.6)),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'Credit Score: ${_applications[index].score}',
-                                      style: TextStyle(
-                                          color: Colors.black.withOpacity(0.6)),
-                                    ),
-                                  ),
-                                  ButtonBar(
-                                    alignment: MainAxisAlignment.start,
+                  child: _applications.isNotEmpty
+                      ? ListView.builder(
+                          padding: const EdgeInsets.all(2),
+                          itemCount: _applications.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                                onTap: () => showMyDialog(
+                                    context,
+                                    'Paid-up Capital: RM ${_applications[index].puc}\n' +
+                                        'Loan Amount: RM ${_applications[index].la}\n' +
+                                        'Loan Tenure: ${_applications[index].lt} months\n' +
+                                        'Non-Current Assets: RM ${_applications[index].nca}\n' +
+                                        'Current Assets: RM ${_applications[index].ca}\n' +
+                                        'Total Assets: RM ${_applications[index].ta}\n' +
+                                        'Current Liabilities: RM ${_applications[index].cl}\n' +
+                                        'Total Liabilities: RM ${_applications[index].tl}\n' +
+                                        'Share Capital: RM ${_applications[index].sc}\n' +
+                                        'Retained Earnings: RM ${_applications[index].re}\n' +
+                                        'Networth: RM ${_applications[index].net}\n' +
+                                        'Revenue: RM ${_applications[index].rev}\n' +
+                                        'Net Profit Before Tax: RM ${_applications[index].npbt}\n' +
+                                        'Net Profit After Tax: RM ${_applications[index].npat}\n'),
+                                child: Card(
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Column(
                                     children: [
-                                      FlatButton(
-                                        onPressed: () {
-                                          // Perform some action
-                                        },
-                                        child: const Text('Accept'),
+                                      ListTile(
+                                        leading:
+                                            Icon(Icons.verified_user_rounded),
+                                        title: Text(
+                                            '${_applications[index].name}'),
+                                        subtitle: Text(
+                                          '${_applications[index].email}',
+                                          style: TextStyle(
+                                              color: Colors.black
+                                                  .withOpacity(0.6)),
+                                        ),
                                       ),
-                                      FlatButton(
-                                        onPressed: () {
-                                          // Perform some action
-                                        },
-                                        child: const Text('Reject'),
+                                      Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Text(
+                                          'Credit Score: ${_applications[index].score}',
+                                          style: TextStyle(
+                                              color: Colors.black
+                                                  .withOpacity(0.6)),
+                                        ),
+                                      ),
+                                      ButtonBar(
+                                        alignment: MainAxisAlignment.start,
+                                        children: [
+                                          FlatButton(
+                                            onPressed: () {
+                                              // Perform some action
+                                              showConfirmDialog(
+                                                  context, 'accept', index);
+                                            },
+                                            child: const Text('Accept'),
+                                          ),
+                                          FlatButton(
+                                            onPressed: () {
+                                              // Perform some action
+                                              showConfirmDialog(
+                                                  context, 'reject', index);
+                                            },
+                                            child: const Text('Reject'),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ));
-                      }),
+                                ));
+                          })
+                      : Center(
+                          child: Text('No recent applications found'),
+                        ),
                 ),
-          onRefresh: () {
-            Navigator.pushReplacement(context,
-                PageRouteBuilder(pageBuilder: (a, b, c) => MyHomePage()));
-            return Future.value(false);
-          }),
+          onRefresh: () => _refresh()),
     );
   }
 }
-
-IconThemeData _customIconTheme(IconThemeData original) {
-  return original.copyWith(color: shrineBrown900);
-}
-
-ThemeData _buildShrineTheme() {
-  final ThemeData base = ThemeData.light();
-  return base.copyWith(
-    colorScheme: _shrineColorScheme,
-    accentColor: shrineBrown900,
-    primaryColor: shrinePink100,
-    buttonColor: shrinePink100,
-    scaffoldBackgroundColor: shrineBackgroundWhite,
-    cardColor: shrineBackgroundWhite,
-    textSelectionColor: shrinePink100,
-    errorColor: shrineErrorRed,
-    buttonTheme: const ButtonThemeData(
-      colorScheme: _shrineColorScheme,
-      textTheme: ButtonTextTheme.normal,
-    ),
-    primaryIconTheme: _customIconTheme(base.iconTheme),
-    textTheme: _buildShrineTextTheme(base.textTheme),
-    primaryTextTheme: _buildShrineTextTheme(base.primaryTextTheme),
-    accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
-    iconTheme: _customIconTheme(base.iconTheme),
-  );
-}
-
-TextTheme _buildShrineTextTheme(TextTheme base) {
-  return base
-      .copyWith(
-        headline5: base.headline5.copyWith(
-          fontWeight: FontWeight.w500,
-          letterSpacing: defaultLetterSpacing,
-        ),
-        headline6: base.headline6.copyWith(
-          fontSize: 18,
-          letterSpacing: defaultLetterSpacing,
-        ),
-        caption: base.caption.copyWith(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-          letterSpacing: defaultLetterSpacing,
-        ),
-        bodyText2: base.bodyText2.copyWith(
-          fontWeight: FontWeight.w500,
-          fontSize: 16,
-          letterSpacing: defaultLetterSpacing,
-        ),
-        bodyText1: base.bodyText1.copyWith(
-          letterSpacing: defaultLetterSpacing,
-        ),
-        subtitle1: base.subtitle1.copyWith(
-          letterSpacing: defaultLetterSpacing,
-        ),
-        headline4: base.headline4.copyWith(
-          letterSpacing: defaultLetterSpacing,
-        ),
-        button: base.button.copyWith(
-          fontWeight: FontWeight.w500,
-          fontSize: 14,
-          letterSpacing: defaultLetterSpacing,
-        ),
-      )
-      .apply(
-        fontFamily: 'Rubik',
-        displayColor: shrineBrown900,
-        bodyColor: shrineBrown900,
-      );
-}
-
-const ColorScheme _shrineColorScheme = ColorScheme(
-  primary: shrinePink100,
-  primaryVariant: shrineBrown900,
-  secondary: shrinePink50,
-  secondaryVariant: shrineBrown900,
-  surface: shrineSurfaceWhite,
-  background: shrineBackgroundWhite,
-  error: shrineErrorRed,
-  onPrimary: shrineBrown900,
-  onSecondary: shrineBrown900,
-  onSurface: shrineBrown900,
-  onBackground: shrineBrown900,
-  onError: shrineSurfaceWhite,
-  brightness: Brightness.light,
-);
-
-const Color shrinePink50 = Color(0xFFFEEAE6);
-const Color shrinePink100 = Color(0xFFFEDBD0);
-const Color shrinePink300 = Color(0xFFFBB8AC);
-const Color shrinePink400 = Color(0xFFEAA4A4);
-
-const Color shrineBrown900 = Color(0xFF442B2D);
-const Color shrineBrown600 = Color(0xFF7D4F52);
-
-const Color shrineErrorRed = Color(0xFFC5032B);
-
-const Color shrineSurfaceWhite = Color(0xFFFFFBFA);
-const Color shrineBackgroundWhite = Colors.white;
-
-const defaultLetterSpacing = 0.03;
