@@ -8,15 +8,4 @@ So far the released version of the apps are currently fully working except the "
 # Screenshots
 
 #Borrower
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/borrower/homepage_status.png =250x550) 
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/borrower/homepage_profile.png =250x550) 
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/borrower/homepage_apply_1.png =250x550)
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/borrower/homepage_apply_2.png =250x550) 
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/borrower/add_document.png =250x550)
-
-#Lender
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/lender/homepage_overview_accept.png =250x550)
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/lender/homepage_overview_application.png =250x550)
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/lender/homepage_overview_reject.png =250x550)
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/lender/homepage_overview_profile.png =250x550)
-![alt text](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/lender/homepage_application.png =250x550)
+![image] (https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/borrower/homepage_status.png =250x550)
