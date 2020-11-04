@@ -8,7 +8,7 @@ So far the released version of the apps are currently fully working except the "
 # Screenshots
 
 #Borrower
-![image](screenshots/borrower/homepage_status.png | width=250)
+![image](screenshots/borrower/homepage_status.png)
 ![alt text](screenshots/borrower/homepage_profile.png =250x550) 
 ![alt text](screenshots/borrower/homepage_apply_1.png =250x550)
 ![alt text](screenshots/borrower/homepage_apply_2.png =250x550) 
