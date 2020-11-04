@@ -8,16 +8,15 @@ So far the released version of the apps are currently fully working except the "
 # Screenshots
 
 #Borrower
-![image](screenshots/borrower/homepage_status.png)
 <img src="./screenshots/borrower/homepage_status.png" width="250">
-![alt text](screenshots/borrower/homepage_profile.png =250x550) 
-![alt text](screenshots/borrower/homepage_apply_1.png =250x550)
-![alt text](screenshots/borrower/homepage_apply_2.png =250x550) 
-![alt text](screenshots/borrower/add_document.png =250x550)
+<img src="./screenshots/borrower/homepage_profile.png" width="250">
+<img src="./screenshots/borrower/homepage_apply_1.png" width="250">
+<img src="./screenshots/borrower/homepage_apply_2.png" width="250">
+<img src="./screenshots/borrower/add_document.png" width="250">
 
 #Lender
-![alt text](screenshots/lender/homepage_overview_accept.png =250x550)
-![alt text](screenshots/lender/homepage_overview_application.png =250x550)
-![alt text](screenshots/lender/homepage_overview_reject.png =250x550)
-![alt text](screenshots/lender/homepage_overview_profile.png =250x550)
-![alt text](screenshots/lender/homepage_application.png =250x550)
+<img src="./screenshots/lender/homepage_overview_accept" width="250">
+<img src="./screenshots/lender/homepage_overview_application.png" width="250">
+<img src="./screenshots/lender/homepage_overview_reject.png" width="250">
+<img src="./screenshots/lender/homepage_overview_profile.png" width="250">
+<img src="./screenshots/lender/homepage_application.png" width="250">
