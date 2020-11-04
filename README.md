@@ -8,7 +8,7 @@ So far the released version of the apps are currently fully working except the "
 # Screenshots
 
 #Borrower
-<img src="./screenshots/borrower/homepage_status.png" width="250"> <img src="./screenshots/borrower/homepage_profile.png" width="250"> <img src="./screenshots/borrower/homepage_apply_1.png" width="250"> <img src="./screenshots/borrower/homepage_apply_2.png" width="250"> <img src="./screenshots/borrower/add_document.png" width="250">
+<img src="./screenshots/borrower/homepage_status.png" width="250" /> <img src="./screenshots/borrower/homepage_profile.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_1.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_2.png" width="250" /> <img src="./screenshots/borrower/add_document.png" width="250" />
 
 #Lender
-<img src="./screenshots/lender/homepage_overview_accept" width="250"> <img src="./screenshots/lender/homepage_overview_application.png" width="250"> <img src="./screenshots/lender/homepage_overview_reject.png" width="250"> <img src="./screenshots/lender/homepage_overview_profile.png" width="250"> <img src="./screenshots/lender/homepage_application.png" width="250">
+<img src="./screenshots/lender/homepage_overview_accept" width="250" /> <img src="./screenshots/lender/homepage_overview_application.png" width="250" /> <img src="./screenshots/lender/homepage_overview_reject.png" width="250" /> <img src="./screenshots/lender/homepage_overview_profile.png" width="250" /> <img src="./screenshots/lender/homepage_application.png" width="250" />
