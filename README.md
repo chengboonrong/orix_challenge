@@ -8,4 +8,4 @@ So far the released version of the apps are currently fully working except the "
 # Screenshots
 
 #Borrower
-![image](screenshots/borrower/homepage_status.png)
+![image](screenshots/borrower/homepage_status.png =250x550)
