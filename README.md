@@ -3,7 +3,7 @@ Introducing our prototype Flutter apps, here we managed to automate the credit l
 
 There will be two separately apps, one for borrower view and another one for lender view.
 
-So far the released version of the apps are currently fully working except the "Add document" functionality as it only works in Android Virtual Device as we tested.
+So far the released version of the apps are currently fully working on Android phones except the "Add document" function as it only works in Android Virtual Device as we tested.
 
 # Screenshots
 
