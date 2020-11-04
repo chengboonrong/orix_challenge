@@ -8,4 +8,4 @@ So far the released version of the apps are currently fully working except the "
 # Screenshots
 
 #Borrower
-![image] (https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/borrower/homepage_status.png =250x550)
+![image](https://raw.githubusercontent.com/chengboonrong/orix_challenge/main/screenshots/borrower/homepage_status.png=250x550)
