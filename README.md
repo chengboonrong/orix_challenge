@@ -9,7 +9,7 @@ So far the released version of the apps are currently fully working on Android p
 
 #Borrower
 
-<img src="./screenshots/borrower/homepage_status.png" width="250" /> <img src="./screenshots/borrower/homepage_profile.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_1.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_2.png" width="250" /> <img src="./screenshots/borrower/add_document" width="250" />
+<img src="./screenshots/borrower/homepage_status.png" width="250" /> <img src="./screenshots/borrower/homepage_profile.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_1.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_2.png" width="250" /> <img src="./screenshots/borrower/add_document.png" width="250" />
 
 #Lender
 
