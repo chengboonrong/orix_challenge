@@ -103,87 +103,142 @@ class _App1State extends State<App1> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: Builder(
-            builder: (context) => IconButton(
-                  icon: Icon(Icons.account_circle),
-                  iconSize: 40,
-                  color: Colors.black,
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  tooltip:
-                      MaterialLocalizations.of(context).openAppDrawerTooltip,
-                )),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: Builder(
+                builder: (context) => IconButton(
+                      icon: Icon(Icons.account_circle),
+                      iconSize: 40,
+                      color: Colors.black,
+                      onPressed: () => Scaffold.of(context).openDrawer(),
+                      tooltip:
+                          MaterialLocalizations.of(context).openAppDrawerTooltip,
+                    )),
+          ),
+        ),
         backgroundColor: Colors.white24,
         elevation: 0,
       ),
-      body: RefreshIndicator(
-        child: Center(
-          child: isLoading
-              ? CircularProgressIndicator()
-              : Container(
-                  child: !_gtData
-                      ? Text('No application submitted')
-                      : ListView.builder(
-                          itemCount: _applications.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 20),
-                                        child: Text(
-                                          index.toString(),
-                                          style: TextStyle(fontSize: 25),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 40.0,
-                                        width: 1.0,
-                                        color: Colors.black38,
-                                        margin:
-                                            const EdgeInsets.only(right: 10),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              'Application ID: ${_applications[index]['appID'].toString()}'),
-                                          Text(
-                                              'Time created: ${_applications[index]['time'].toString()}')
+      body: Column(children: [
+        SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16.0,30.0,16.0,4.0),
+            child: Text(
+              'Hello ${name.toString().toUpperCase()},',
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16.0,4.0,16.0,16.0),
+            child: Text(
+              'What do you want to do today?',
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 16,color: Colors.grey),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8.0,30.0,8.0,8.0),
+            child: Text(
+              'Status Overview',
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'RobotoMono'),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: RefreshIndicator(
+                child: Center(
+                  child: isLoading
+                      ? CircularProgressIndicator()
+                      : Container(
+                          child: !_gtData
+                              ? Text('No application submitted')
+                              : ListView.builder(
+                                  itemCount: _applications.length,
+                                  itemBuilder: (context, index) {
+                                    return Card(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 20),
+                                                child: Text(
+                                                  index.toString(),
+                                                  style: TextStyle(fontSize: 25),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 40.0,
+                                                width: 1.0,
+                                                color: Colors.black38,
+                                                margin: const EdgeInsets.only(
+                                                    right: 10),
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                      'Application ID: ${_applications[index]['appID'].toString()}'),
+                                                  Text(
+                                                      'Time created: ${_applications[index]['time'].toString()}')
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    color: colors[
+                                                        _applications[index]
+                                                            ['status']],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            60)),
+                                                padding: const EdgeInsets.all(12),
+                                                child: Text(
+                                                  '${status[_applications[index]['status']]}',
+                                                  style: TextStyle(fontSize: 18),
+                                                ),
+                                              ),
+                                            ],
+                                          )
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: colors[_applications[index]
-                                                ['status']],
-                                            borderRadius:
-                                                BorderRadius.circular(60)),
-                                        padding: const EdgeInsets.all(12),
-                                        child: Text(
-                                          '${status[_applications[index]['status']]}',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            );
-                          },
+                                    );
+                                  },
+                                ),
                         ),
                 ),
+                onRefresh: () => _refresh(),
+              ),
+            ),
+          ),
         ),
-        onRefresh: () => _refresh(),
-      ),
+      ]),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
@@ -310,9 +365,9 @@ class _App1State extends State<App1> {
               ),
             ),
             ListTile(
-                title: Text("About us"),
-                onTap: (){},
-                ),
+              title: Text("About us"),
+              onTap: () {},
+            ),
             Padding(
                 padding: const EdgeInsets.only(top: 0, right: 16),
                 child: Row(
