@@ -173,22 +173,33 @@ class _App1State extends State<App1> {
             width: 350.0,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Carousel(
-                  images: [
-                    ExactAssetImage("lib/assets/1.png"),
-                    ExactAssetImage("lib/assets/2.png"),
-                    ExactAssetImage("lib/assets/3.png"),
-                    ExactAssetImage("lib/assets/4.png"),
-                    ExactAssetImage("lib/assets/5.png"),
-                    ExactAssetImage("lib/assets/6.png"),
-                  ],
-                  dotSize: 4.0,
-                  dotSpacing: 15.0,
-                  dotColor: Colors.black,
-                  indicatorBgPadding: 5.0,
-                  dotBgColor: Colors.purple.withOpacity(0),
-                  borderRadius: true,
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [BoxShadow(
+                      blurRadius: 20,
+                      color: Colors.black.withOpacity(0.4),
+                      spreadRadius: 1,
+                      offset: Offset(0,3)//bottom right 
+                      )
+                    ]),
+                  child: Carousel(
+                    images: [
+                      ExactAssetImage("lib/assets/1.png"),
+                      ExactAssetImage("lib/assets/2.png"),
+                      ExactAssetImage("lib/assets/3.png"),
+                      ExactAssetImage("lib/assets/4.png"),
+                      ExactAssetImage("lib/assets/5.png"),
+                      ExactAssetImage("lib/assets/6.png"),
+                    ],
+                    dotSize: 4.0,
+                    dotSpacing: 15.0,
+                    dotColor: Colors.black,
+                    indicatorBgPadding: 5.0,
+                    dotBgColor: Colors.purple.withOpacity(0),
+                    borderRadius: true,
+                  ),
                 ),
               ),
             )),
