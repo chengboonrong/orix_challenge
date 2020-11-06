@@ -1,0 +1,45 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+body{
+    font-family: "DM Sans", sans-serif !important;
+}
+
+.navbar{
+    padding: 1.5rem;
+}
+
+.navbar{
+    a{
+        color: #4d7298;
+        font-size: 1.2rem;
+        padding-left: 2rem;
+        text-decoration: none;
+        // font-weight: 600;
+    }
+}
+
+.navbar-logo{
+    font-weight: 900 !important;
+    color: #4d7298;
+}
+
+// welcome.blade
+#index-container .finance-svg{
+    padding-top: 1.3rem;
+    filter: drop-shadow(2px 4px 8px #585858);
+}
+#index-container .index-text h1{
+    font-size: 3rem;
+    font-weight: 600;
+    margin-top: 5rem;
+    padding: 20px;
+    letter-spacing: 0.2rem;
+    color: darkcyan;
+}

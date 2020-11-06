@@ -1,16 +1,61 @@
-# Orix Local Challenge (Team - The97ers)
-Introducing our prototype Flutter apps, here we managed to automate the credit loan application process where commercial customer can easily do loan application and at the mean time lender will be able to see the form submitted in realtime. Besides, we implemented our own AI-driven credit scoring model to predict the loan status in term of score ranging from 0.00 to 1.00 (bad - good). Moreover, we also managed to do face detection and some ID document text recognition (extracting IC number, name and so on) when customers are required to upload their IC copy before applying for a loan in app. 
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-There will be two separately apps, one for borrower view and another one for lender view.
+<p align="center">
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-So far the released version of the apps are currently fully working on Android phones except the "Add document" function as it only works in Android Virtual Device as we tested.
+## About Laravel
 
-# Screenshots
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-#Borrower
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-<img src="./screenshots/borrower/homepage_status.png" width="250" /> <img src="./screenshots/borrower/homepage_profile.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_1.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_2.png" width="250" /> <img src="./screenshots/borrower/add_document.png" width="250" />
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-#Lender
+## Learning Laravel
 
-<img src="./screenshots/lender/homepage_overview_accept.png" width="250" /> <img src="./screenshots/lender/homepage_overview_application.png" width="250" /> <img src="./screenshots/lender/homepage_overview_reject.png" width="250" /> <img src="./screenshots/lender/homepage_overview_profile.png" width="250" /> <img src="./screenshots/lender/homepage_application.png" width="250" />
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+
+## Laravel Sponsors
+
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+
+### Premium Partners
+
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[OP.GG](https://op.gg)**
+
+## Contributing
+
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
