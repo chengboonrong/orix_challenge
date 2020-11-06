@@ -1,16 +1,16 @@
-# Orix Local Challenge (Team - The97ers)
-Introducing our prototype Flutter apps, here we managed to automate the credit loan application process where commercial customer can easily do loan application and at the mean time lender will be able to see the form submitted in realtime. Besides, we implemented our own AI-driven credit scoring model to predict the loan status in term of score ranging from 0.00 to 1.00 (bad - good). Moreover, we also managed to do face detection and some ID document text recognition (extracting IC number, name and so on) when customers are required to upload their IC copy before applying for a loan in app. 
+# my_app
 
-There will be two separately apps, one for borrower view and another one for lender view.
+A new Flutter project.
 
-So far the released version of the apps are currently fully working on Android phones except the "Add document" function as it only works in Android Virtual Device as we tested.
+## Getting Started
 
-# Screenshots
+This project is a starting point for a Flutter application.
 
-#Borrower
+A few resources to get you started if this is your first Flutter project:
 
-<img src="./screenshots/borrower/homepage_status.png" width="250" /> <img src="./screenshots/borrower/homepage_profile.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_1.png" width="250" /> <img src="./screenshots/borrower/homepage_apply_2.png" width="250" /> <img src="./screenshots/borrower/add_document.png" width="250" />
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-#Lender
-
-<img src="./screenshots/lender/homepage_overview_accept.png" width="250" /> <img src="./screenshots/lender/homepage_overview_application.png" width="250" /> <img src="./screenshots/lender/homepage_overview_reject.png" width="250" /> <img src="./screenshots/lender/homepage_overview_profile.png" width="250" /> <img src="./screenshots/lender/homepage_application.png" width="250" />
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
