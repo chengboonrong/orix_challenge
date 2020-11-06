@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/utils/authentication.dart' as GoogleSignIn;
 import 'package:my_app/welcomePage.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 
 class App1 extends StatefulWidget {
   App1({Key key}) : super(key: key);
@@ -98,6 +99,8 @@ class _App1State extends State<App1> {
     return readData();
   }
 
+  final PageController ctrl = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,8 +116,8 @@ class _App1State extends State<App1> {
                       iconSize: 40,
                       color: Colors.black,
                       onPressed: () => Scaffold.of(context).openDrawer(),
-                      tooltip:
-                          MaterialLocalizations.of(context).openAppDrawerTooltip,
+                      tooltip: MaterialLocalizations.of(context)
+                          .openAppDrawerTooltip,
                     )),
           ),
         ),
@@ -125,36 +128,82 @@ class _App1State extends State<App1> {
         SizedBox(
           width: double.infinity,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16.0,30.0,16.0,4.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 4.0),
             child: Text(
               'Hello ${name.toString().toUpperCase()},',
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,fontFamily: 'Raleway'),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  fontFamily: 'Raleway'),
             ),
           ),
         ),
         SizedBox(
           width: double.infinity,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16.0,4.0,16.0,16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 16.0),
             child: Text(
               'What do you want to do today?',
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16,color: Colors.grey,fontFamily: 'Raleway'),
+              style: TextStyle(
+                  fontSize: 16, color: Colors.grey, fontFamily: 'Raleway'),
             ),
           ),
         ),
         SizedBox(
           width: double.infinity,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(8.0,30.0,8.0,8.0),
+            padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 8.0),
+            child: Text(
+              'User Manual',
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'RobotoMono'),
+            ),
+          ),
+        ),
+        SizedBox(
+            height: 200.0,
+            width: 350.0,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: Carousel(
+                  images: [
+                    ExactAssetImage("lib/assets/1.png"),
+                    ExactAssetImage("lib/assets/2.png"),
+                    ExactAssetImage("lib/assets/3.png"),
+                    ExactAssetImage("lib/assets/4.png"),
+                    ExactAssetImage("lib/assets/5.png"),
+                    ExactAssetImage("lib/assets/6.png"),
+                  ],
+                  dotSize: 4.0,
+                  dotSpacing: 15.0,
+                  dotColor: Colors.black,
+                  indicatorBgPadding: 5.0,
+                  dotBgColor: Colors.purple.withOpacity(0),
+                  borderRadius: true,
+                ),
+              ),
+            )),
+        SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 8.0),
             child: Text(
               'Status Overview',
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'RobotoMono'),
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'RobotoMono'),
             ),
           ),
         ),
@@ -186,7 +235,8 @@ class _App1State extends State<App1> {
                                                         vertical: 20),
                                                 child: Text(
                                                   index.toString(),
-                                                  style: TextStyle(fontSize: 25),
+                                                  style:
+                                                      TextStyle(fontSize: 25),
                                                 ),
                                               ),
                                               Container(
@@ -218,10 +268,12 @@ class _App1State extends State<App1> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             60)),
-                                                padding: const EdgeInsets.all(12),
+                                                padding:
+                                                    const EdgeInsets.all(12),
                                                 child: Text(
                                                   '${status[_applications[index]['status']]}',
-                                                  style: TextStyle(fontSize: 18),
+                                                  style:
+                                                      TextStyle(fontSize: 18),
                                                 ),
                                               ),
                                             ],
