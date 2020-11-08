@@ -1,4 +1,4 @@
-Another branch.
+<h2>Another branch.<h2>
 
 Difference form the main branch that is not being merge together. <br>
 -Login Page (UI)<br>
@@ -12,4 +12,4 @@ Homepage with User User Manual and Drawer<br>
 <img src="https://github.com/chengboonrong/orix_challenge/blob/Zach/Screenshots/Homepage.jpg" width="500px"><br>
 <img src="https://github.com/chengboonrong/orix_challenge/blob/Zach/Screenshots/Borrower_drawer.jpg" width="500px"><br>
 
-This is not the final design and not merge into main branch.
+This is not the final design and not merge into main branch. 
