@@ -1,4 +1,4 @@
-<h2>Another branch.<h2>
+<h2>Another branch.
 
 Difference form the main branch that is not being merge together. <br>
 -Login Page (UI)<br>
